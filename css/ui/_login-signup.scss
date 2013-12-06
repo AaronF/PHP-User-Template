@@ -1,0 +1,174 @@
+//----------------Sign up-----------------------
+.login, .register {
+	@include media-query(palm){
+		padding:0;
+		margin:0;
+	}
+	.signupform {
+		background-color:#fff;
+		@include border-radius(10px);
+		margin: 130px 0 0 0;
+		padding:20px 26px;
+		position:absolute;
+		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+		font-weight: 300;
+		@include media-query(palm){
+			margin: 0 0 40px 0;
+			position:relative;
+			@include border-radius(0);
+		}
+		.errormsg {
+			background-color:#FFE0CF;
+			@include border-radius(5px);
+			margin:10px 0;
+			text-align: center;
+			padding:7px 0;
+			p {
+				color: $errorred;
+				margin:0;
+			}
+			ul {
+				padding:0;
+				margin:0;
+				li {
+					list-style:none;
+					color: $errorred;
+					margin:0;
+				}
+			}
+		}
+		.successmsg {
+			background-color:#90D447;
+			@include border-radius(5px);
+			margin:10px 0;
+			text-align: center;
+			padding:7px 0;
+			p {
+				color: #fff;
+				margin:0;
+			}
+			ul {
+				padding:0;
+				margin:0;
+				li {
+					list-style:none;
+					color: #fff;
+					margin:0;
+				}
+			}
+		}
+		.reg_header {
+			color:#888E91;
+			text-align:center;
+			font-family: 'Open Sans', sans-serif;
+			h2 {
+				margin:0 0 20px 0;
+				@include media-query(palm,landscape){
+					font-size: 15px;
+				}
+			}
+			i {
+				position:absolute;
+				top:-16px;
+				left:45%;
+				font-size:32px;
+				color:#DEDEDE;
+			}
+		}
+		input[type="text"],
+		input[type="password"],
+		input[type="email"],
+		input[type="number"],
+		input[type="tel"] {
+			width:100%;
+			margin:0 0 10px 0;
+			clear:both;
+			font-size:$base-font-size;
+			background-color:#fff;
+			border:none;
+			border-bottom:1px solid #EAF0F6;
+			border-radius:0;
+			padding:10px 15px;
+			color:#888E91;
+			@include media-query(palm,landscape){
+				font-size: $base-font-size/1.5;
+			}
+			&:focus {
+		    	outline-width: 0;
+				border-bottom: 1px solid #47B9E5;
+		    }
+		    &::-webkit-input-placeholder {
+		    	color:#99AAC8;
+				font-size:$base-font-size;
+				font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+				font-weight: 300;
+				@include media-query(palm,landscape){
+					font-size: $base-font-size/1.5;
+				}
+		    }
+		}
+		input[type="checkbox"]{
+			float:left;
+			margin:1px 0 0 7px;
+		}
+		label[for="remember_me"]{
+			font-size: $base-font-size;
+			line-height: 13px;
+			color:#99AAC8;
+			margin: 0 0 0 6px;
+			@include media-query(palm,landscape){
+				font-size: $base-font-size/1.5;
+			}
+		}
+		select {
+			width: 100%;
+		}
+		p {
+			margin: 7px 0 0 0;
+			font-size: $base-font-size;
+			color:#99AAC8;
+			@include media-query(palm,landscape){
+				font-size: $base-font-size/1.5;
+			}
+			a {
+				color:#99AAC8;
+			}
+		}
+		input[class=error] {
+			border-bottom: 1px solid $errorred;
+			margin-bottom:5px;
+		}
+		label[class=error] {
+			color: $errorred;
+			font-style: italic;
+			border-bottom:none;
+			margin: 0;
+		}
+		.bluebutton1 {
+			width:100%;
+			margin: 20px 0 0 0;
+			-webkit-appearence:none;
+			background-color:#8FC7E0;
+			color:#fff;
+			font-size:$base-font-size;
+			border:none;
+			padding: 10px 0;
+			-webkit-border-radius: 4px; 
+			-moz-border-radius: 4px; 
+			border-radius: 4px;
+			outline:0;
+			vertical-align:middle;
+			@include media-query(palm,landscape){
+				font-size: $base-font-size/1.5;
+			}
+			i {
+				font-size:18px;
+				vertical-align:middle;
+				padding: 0 2px 0 0;
+				@include media-query(palm,landscape){
+					font-size: $base-font-size/1.5;
+				}
+			}
+		}
+	}
+}

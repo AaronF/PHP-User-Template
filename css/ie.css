@@ -1,0 +1,71 @@
+.onecol {
+width: 4.7%;
+}
+
+.twocol {
+width: 13.2%;
+}
+
+.threecol {
+width: 22.05%;
+}
+
+.fourcol {
+width: 30.6%;
+}
+
+.fivecol {
+width: 39%;
+}
+
+.sixcol {
+width: 48%;
+}
+
+.sevencol {
+width: 56.75%;
+}
+
+.eightcol {
+width: 61.6%;
+}
+
+.ninecol {
+width: 74.05%;
+}
+
+.tencol {
+width: 82%;
+}
+
+.elevencol {
+width: 91.35%;
+}
+
+/*list fix*/
+.main .content .box {
+	list-style: none;
+	display: -moz-inline-stack;
+	display: inline-block;
+	vertical-align: top;
+	zoom: 1;
+	*display: inline;
+	width: 48%;
+	height: auto;
+	position: relative;
+	border-top: 1px dotted #e4e4e4;
+	margin: 0 0 20px 0;
+}
+
+.main  #dashboard #topstories li {
+	list-style: none;
+	display: -moz-inline-stack;
+	display: inline-block;
+	vertical-align: top;
+	zoom: 1;
+	*display: inline;
+	border-top:1px dotted #dddddd;
+	width: 48%;
+	height: auto;
+	position: relative; 
+}

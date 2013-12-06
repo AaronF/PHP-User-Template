@@ -1,0 +1,26 @@
+.error_page {
+	.header {
+		background-color:#3E72E1;
+		height: 60px;
+		.headerrow {
+			.logo {
+				margin:15px 0 0 0;
+			}
+			.nav {
+				a {
+					color: #fff;
+					li {
+						font-size: 13px;
+						line-height: 30px;
+					}
+				}
+			}
+		}
+	}
+	.container {
+		background-color:#fff;
+		margin: 20px auto 0 auto;
+		padding: 20px;
+		@include border-radius(10px);
+	}
+}

@@ -1,0 +1,81 @@
+.header {
+	height: 60px;
+	@include media-query(palm){
+		height: auto;
+	}
+	@include media-query(palm, landscape){
+		height: auto;
+	}
+	@include media-query(lap){
+		padding:0 20px;
+	}
+	.headerrow {
+		.logo {
+			margin:19px 0 0 0;
+			@include media-query(palm, portrait){
+				text-align:center;
+			}
+			@include media-query(palm, landscape){
+				margin:0;
+				padding: 10px 0 5px 15px;
+				float: left;
+				width:100%;
+				a {
+					img {
+						width:60px;
+					}
+				}
+			}
+		}
+		.nav {
+			text-align:right;
+			@include media-query(palm, portrait){
+				text-align:center;
+				margin:0;
+			}
+			@include media-query(palm, landscape){
+				float: none;
+				width:100%;
+				font-size: 50%;
+				text-align:left;
+				margin:0;
+				clear:both;
+			}
+			ul {
+				padding:17px 0 0 0;
+				@include media-query(palm){
+					padding:0;
+					margin:10px 0;
+				}
+				@include media-query(palm, landscape){
+					margin:0 0 10px 0;
+				}
+				a {
+					color: #000;	
+					li {
+						list-style:none;
+						display: inline-block;
+						line-height:34px;
+						padding: 0 15px;
+						@include media-query(palm, portrait){
+							display:inline-block;
+							float:none;
+						}
+						@include media-query(palm, landscape){
+							line-height: 100%;
+						}
+					}
+					.signup {
+						// border:2px solid #fff;
+						// @include border-radius(20px);
+						line-height: 30px;
+						@include media-query(palm, landscape){
+							line-height: 20px;
+							margin: 0 0 0 10px;
+						}
+					}
+				}
+			}
+		}
+	}
+}
