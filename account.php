@@ -3,8 +3,7 @@ require_once('models/config.php');
 if(!isUserLoggedIn()) { header('Location: login.php'); die(); }
 
 
-if(isset($_POST["changeprofilesubmit"]))
-{
+if(isset($_POST["changeprofilesubmit"])){
 	$profileerrors_first = array();
 	$profileerrors_last = array();
 	$profileerrors_phone = array();
@@ -112,82 +111,84 @@ if(isset($_POST["changepasssubmit"])) {
 ?>
 
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
+	<meta charset="utf-8">
+	<title>Account</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
 
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <link rel="stylesheet" href="css/external/gridiculous.css">
-    <link rel="stylesheet" href="css/style.min.css">
-    <link rel="stylesheet" href="css/external/font-awesome.css">
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<link rel="stylesheet" href="stylesheets/style.css">
 
-    <title><?php echo $websiteName;?> - Account</title>
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+
 </head>
 <body>
+	<div class="grid w960">
+		<div class="row">
+	        <div class="c12">
+				<h1>Change your email address</h1>
+				<?php
+				if(isset($_POST["changeemailsubmit"])){
+					if(count($emailerrors) > 0){
+						?>
+						<div id="errors">
+							<?php errorBlock($emailerrors); ?>
+						</div>
+						<?php } else { ?>
+						<div id="success">
+							<p><?php echo lang("ACCOUNT_DETAILS_UPDATED"); ?></p>
+						</div>
+					<? }
+				}
+				?>
+				<form name="changeEmail" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" class="changeemail">
+					<label for="email">Email Address:</label>
+					<input type="email" name="email" value="<?php echo $loggedInUser->email; ?>" />
+					<div class="clear"></div>
+					<input type="submit" value="Update Email" name="changeemailsubmit" class="bluebutton1"/>
+				</form>
 
-<?php include_once("layout_inc/header.php");?>
-<div class="grid w960 container account">
-    <div class="row">
-        <div class="c12">
-			<h1>Change your email address</h1>
-			<?php
-			if(isset($_POST["changeemailsubmit"])){
-				if(count($emailerrors) > 0){
-					?>
-					<div id="errors">
-						<?php errorBlock($emailerrors); ?>
-					</div>
+				<h1>Change your password</h1>
+				<?php
+				if(isset($_POST["changepasssubmit"])){
+					if(count($errors) > 0){ ?>
+						<div id="errors">
+							<?php errorBlock($errors); ?>
+						</div>
 					<?php } else { ?>
-					<div id="success">
-						<p><?php echo lang("ACCOUNT_DETAILS_UPDATED"); ?></p>
-					</div>
-				<? }
-			}
-			?>
-			<form name="changeEmail" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" class="changeemail">
-				<label for="email">Email Address:</label>
-				<input type="email" name="email" value="<?php echo $loggedInUser->email; ?>" />
-				<div class="clear"></div>
-				<input type="submit" value="Update Email" name="changeemailsubmit" class="bluebutton1"/>
-			</form>
-
-			<h1>Change your password</h1>
-			<?php
-			if(isset($_POST["changepasssubmit"])){
-				if(count($errors) > 0){ ?>
-					<div id="errors">
-						<?php errorBlock($errors); ?>
-					</div>
-				<?php } else { ?>
-					<div id="success">
-						<p><?php echo lang("ACCOUNT_DETAILS_UPDATED"); ?></p>
-					</div>
-				<? }
-			}
-			?>
+						<div id="success">
+							<p><?php echo lang("ACCOUNT_DETAILS_UPDATED"); ?></p>
+						</div>
+					<? }
+				}
+				?>
 
 
-			<form name="changePass" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" class="changepass">
-				<label for="password">Current Password:</label>
-				<input placeholder="Current password" type="password" name="password" >
-				<label for="passwordc">New Password:</label>
-				<input placeholder="New password" type="password" name="passwordc" >
-				<label for="passwordcheck">Confirm Password:</label>
-				<input placeholder="Confirm new password" type="password" name="passwordcheck" >
-				<div class="clear"></div>
-				<input type="submit" value="Update Password" name="changepasssubmit" class="bluebutton1">
-			</form>
+				<form name="changePass" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" class="changepass">
+					<label for="password">Current Password:</label>
+					<input placeholder="Current password" type="password" name="password" >
+					<label for="passwordc">New Password:</label>
+					<input placeholder="New password" type="password" name="passwordc" >
+					<label for="passwordcheck">Confirm Password:</label>
+					<input placeholder="Confirm new password" type="password" name="passwordcheck" >
+					<div class="clear"></div>
+					<input type="submit" value="Update Password" name="changepasssubmit" class="bluebutton1">
+				</form>
+			</div>
 		</div>
 	</div>
-</div>
-
 </body>
 </html>

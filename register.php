@@ -40,46 +40,51 @@
 		}
 	}
 ?>
-<!doctype html>
-<html lang="en" class="login_page">
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
 <head>
-	<meta charset="utf-8" />
+	<meta charset="utf-8">
+	<title>Register</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
 
-	<meta name="viewport" content="width=device-width, minimum-scale=1.0">
-	<link rel="shortcut icon" href="../siteimages/favicon.ico">
-	<meta name="description" content=""/>
-	<meta name="keywords" content="">
-	<!--[if lte IE 9]><link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" /><![endif]-->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <link rel="stylesheet" href="css/external/gridiculous.css">
-    <link rel="stylesheet" href="css/style.min.css">
-    <link rel="stylesheet" href="css/external/font-awesome.css">
+	<link rel="stylesheet" href="stylesheets/style.css">
 
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
 
-    <title><?php echo $websiteName;?> - Sign up</title>
+	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+
 </head>
 <body>
-<?php include_once("layout_inc/header.php");?>
-<div class="grid w800">
-	<div class="row clear">
-		<div class="c4"></div>
-		<div class="c4 register">
-			<form class="signupform" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
-				<h2>Sign Up</h2>
+	<div class="grid w960">
+		<div class="row">
+			<div class="c4"></div>
+			<div class="c4 register">
+				<form class="signupform" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+					<h2>Sign Up</h2>
 
-		        <div class="errormsg hide"></div>
-		        <div class="successmsg hide"></div>
+			        <div class="errormsg hide"></div>
+			        <div class="successmsg hide"></div>
 
-				<input type="email" name="email" placeholder="Email address" required="yes">
-				<input type="password" name="password" placeholder="Password" required="yes">
-				<input type="password" name="passwordc" id="passwordc" placeholder="Confirm password" required="yes">
+					<input type="email" name="email" placeholder="Email address" required="yes">
+					<input type="password" name="password" placeholder="Password" required="yes">
+					<input type="password" name="passwordc" id="passwordc" placeholder="Confirm password" required="yes">
 
-				<input type="submit" name="submit" value="Sign Up">
-			</form>
+					<input type="submit" name="submit" value="Sign Up">
+				</form>
+			</div>
+			<div class="c4 end"></div>
 		</div>
-		<div class="c4 end"></div>
 	</div>
-</div>
 </body>
 </html>
