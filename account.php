@@ -11,7 +11,7 @@ if(isset($_POST["changeprofilesubmit"]))
 	$firstname = $_POST["firstname"];
 	$lastname = $_POST["lastname"];
 	$phone = $_POST["phone"];
-	
+
 	if(trim($firstname) == ""){
 		$profileerrors_first[] = "Please specify a first name";
 	}
@@ -43,15 +43,14 @@ if(isset($_POST["changeprofilesubmit"]))
 			}
 		}
 	}
-	
-	
+
+
 }
 
-if(isset($_POST["changeemailsubmit"]))
-{
+if(isset($_POST["changeemailsubmit"])){
 	$emailerrors = array();
 	$email = $_POST["email"];
-	
+
 	if(trim($email) == "")
 	{
 		$emailerrors[] = lang("ACCOUNT_SPECIFY_EMAIL");
@@ -66,9 +65,9 @@ if(isset($_POST["changeemailsubmit"]))
 	}
 	else if(emailExists($email))
 	{
-		$emailerrors[] = lang("ACCOUNT_EMAIL_TAKEN");	
+		$emailerrors[] = lang("ACCOUNT_EMAIL_TAKEN");
 	}
-	
+
 	if(count($emailerrors) == 0)
 	{
 		$loggedInUser->updateEmail($email);
@@ -80,12 +79,12 @@ if(isset($_POST["changepasssubmit"])) {
 	$password = $_POST["password"];
 	$password_new = $_POST["passwordc"];
 	$password_confirm = $_POST["passwordcheck"];
-	
+
 	if(trim($password) == "") {
 		$errors[] = lang("ACCOUNT_SPECIFY_PASSWORD");
 	} else if(trim($password_new) == "") {
 		$errors[] = lang("ACCOUNT_SPECIFY_NEW_PASSWORD");
-	} else if(minMaxRange(8,50,$password_new)) {	
+	} else if(minMaxRange(8,50,$password_new)) {
 		$errors[] = lang("ACCOUNT_NEW_PASSWORD_LENGTH",array(8,50));
 	} else if($password_new != $password_confirm) {
 		$errors[] = lang("ACCOUNT_PASS_MISMATCH");
@@ -94,10 +93,10 @@ if(isset($_POST["changepasssubmit"])) {
 	if(count($errors) == 0) {
 		//Confirm the hash's match before updating a users password
 		$entered_pass = crypt($password,$loggedInUser->hash_pw);
-		
+
 		//Also prevent updating if someone attempts to update with the same password
 		$entered_pass_new = crypt($password_new,$loggedInUser->hash_pw);
-	
+
 		if($entered_pass != $loggedInUser->hash_pw) {
 			//No match
 			$errors[] = lang("ACCOUNT_PASSWORD_INVALID");
@@ -124,12 +123,12 @@ if(isset($_POST["changepasssubmit"])) {
     <meta name="viewport" content="width=device-width">
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    
+
     <link rel="stylesheet" href="css/external/gridiculous.css">
     <link rel="stylesheet" href="css/style.min.css">
     <link rel="stylesheet" href="css/external/font-awesome.css">
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    
+
     <title><?php echo $websiteName;?> - Account</title>
 </head>
 <body>
@@ -140,19 +139,17 @@ if(isset($_POST["changepasssubmit"])) {
         <div class="c12">
 			<h1>Change your email address</h1>
 			<?php
-			if(isset($_POST["changeemailsubmit"]))
-			{
-				if(count($emailerrors) > 0)
-					{
+			if(isset($_POST["changeemailsubmit"])){
+				if(count($emailerrors) > 0){
 					?>
 					<div id="errors">
 						<?php errorBlock($emailerrors); ?>
-					</div>     
-					<?php } else { ?> 
+					</div>
+					<?php } else { ?>
 					<div id="success">
 						<p><?php echo lang("ACCOUNT_DETAILS_UPDATED"); ?></p>
 					</div>
-				<? } 
+				<? }
 			}
 			?>
 			<form name="changeEmail" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" class="changeemail">
@@ -164,18 +161,18 @@ if(isset($_POST["changepasssubmit"])) {
 
 			<h1>Change your password</h1>
 			<?php
-			if(isset($_POST["changepasssubmit"]))
-			{
-				if(count($errors) > 0)
-					{ ?>
-						<div id="errors">
-							<?php errorBlock($errors); ?>
-						</div>     
-					<?php } else { ?> 
-						<div id="success">
-							<p><?php echo lang("ACCOUNT_DETAILS_UPDATED"); ?></p>
-						</div>
-			<? } }?>
+			if(isset($_POST["changepasssubmit"])){
+				if(count($errors) > 0){ ?>
+					<div id="errors">
+						<?php errorBlock($errors); ?>
+					</div>
+				<?php } else { ?>
+					<div id="success">
+						<p><?php echo lang("ACCOUNT_DETAILS_UPDATED"); ?></p>
+					</div>
+				<? }
+			}
+			?>
 
 
 			<form name="changePass" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" class="changepass">
@@ -192,6 +189,5 @@ if(isset($_POST["changepasssubmit"])) {
 	</div>
 </div>
 
-<script src="js/jquery.validate.min.js"></script>
 </body>
 </html>

@@ -20,15 +20,15 @@
 			$errors[] = lang("ACCOUNT_INVALID_EMAIL");
 		}
 
-		if(count($errors) == 0){	
+		if(count($errors) == 0){
 			$user = new User($password,$email);
-			
+
 			if(!$user->status) {
 				// if($user->username_taken) $errors[] = lang("ACCOUNT_USERNAME_IN_USE",array($username));
 				if($user->email_taken) {
 					$errors[] = lang("ACCOUNT_EMAIL_IN_USE",array($email));
-				} 	  	
-				
+				}
+
 			} else {
 				if(!$user->userCakeAddUser()) {
 					if($user->mail_failure) $errors[] = lang("MAIL_ERROR");
@@ -36,7 +36,7 @@
 				}
 			}
 			header("Location: login.php?m=1");
-			
+
 		}
 	}
 ?>
@@ -45,7 +45,7 @@
 <head>
 	<meta charset="utf-8" />
 
-	<meta name="viewport" content="width=device-width, minimum-scale=1.0"> 
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0">
 	<link rel="shortcut icon" href="../siteimages/favicon.ico">
 	<meta name="description" content=""/>
 	<meta name="keywords" content="">
@@ -56,7 +56,7 @@
     <link rel="stylesheet" href="css/external/font-awesome.css">
 
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    
+
     <title><?php echo $websiteName;?> - Sign up</title>
 </head>
 <body>
@@ -67,7 +67,7 @@
 		<div class="c4 register">
 			<form class="signupform" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
 				<h2>Sign Up</h2>
-		
+
 		        <div class="errormsg hide"></div>
 		        <div class="successmsg hide"></div>
 
@@ -81,6 +81,5 @@
 		<div class="c4 end"></div>
 	</div>
 </div>
-<script src="js/jquery.validate.min.js"></script>
 </body>
 </html>

@@ -25,10 +25,10 @@ function text_limit($str,$limit=10) {
     }
 }
 
-function rand_string( $length ) {
+function rand_string($length) {
 	$str = '';
-	$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";	
-	
+	$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
 	$size = strlen( $chars );
 	for( $i = 0; $i < $length; $i++ ) {
 		$str .= $chars[ rand( 0, $size - 1 ) ];
@@ -66,7 +66,7 @@ function replaceDefaultHook($str) {
 	return (str_replace($default_hooks,$default_replace,$str));
 }
 
-function getUniqueCode($length = "") {	
+function getUniqueCode($length = "") {
 	$code = md5(uniqid(rand(), true));
 	if ($length != "") {
 		return substr($code, 0, $length);
@@ -90,7 +90,7 @@ function errorBlock($errors) {
 
 function lang($key,$markers = NULL) {
 	global $lang;
-	
+
 	if($markers == NULL) {
 		$str = $lang[$key];
 	}
@@ -99,14 +99,14 @@ function lang($key,$markers = NULL) {
 		$str = $lang[$key];
 
 		$iteration = 1;
-		
+
 		foreach($markers as $marker) {
 			$str = str_replace("%m".$iteration."%",$marker,$str);
-			
+
 			$iteration++;
 		}
 	}
-	
+
 	//Ensure we have something to return
 	if($str == "") {
 		return ("No language key found");
@@ -118,8 +118,8 @@ function lang($key,$markers = NULL) {
 
 function destorySession($name) {
 	global $remember_me_length,$loggedInUser,$db,$db_table_prefix;
-		
-	if($loggedInUser->remember_me == 0) { 
+
+	if($loggedInUser->remember_me == 0) {
 		if(isset($_SESSION[$name])){
 			$_SESSION[$name] = NULL;
 			unset($_SESSION[$name]);
@@ -132,7 +132,7 @@ function destorySession($name) {
 			setcookie($name, "", time() - parseLength($remember_me_length));
 			$loggedInUser = NULL;
 		}
-	} 
+	}
 }
 
 function updateSessionObj() {

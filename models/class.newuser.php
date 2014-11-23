@@ -11,73 +11,61 @@ class User {
 	public $email_taken = false;
 	public $username_taken = false;
 	public $activation_token = 0;
-	
+
 	function __construct($pass,$email) {
 		//Used for display only
 		// $this->unclean_username = $user;
-		
+
 		$this->clean_email = sanitize($email);
 		$this->clean_password = trim($pass);
 		// $this->clean_username = sanitize($user);
-		
-		if(emailExists($this->clean_email))
-		{
+
+		if(emailExists($this->clean_email)){
 			$this->email_taken = true;
-		}
-		else
-		{
+		} else {
 			$this->status = true;
 		}
 	}
-	
+
 	public function userCakeAddUser() {
 		global $db,$emailActivation,$websiteUrl,$db_table_prefix;
-	
-		if($this->status)
-		{
+
+		if($this->status) {
 			$secure_pass = generateHash($this->clean_password);
-			
+
 			$this->activation_token = generateActivationToken();
-	
-			if($emailActivation)
-			{
+
+			if($emailActivation) {
 				$this->user_active = 0;
-			
+
 				$mail = new userCakeMail();
-			
+
 				$activation_message = lang("ACTIVATION_MESSAGE",array($websiteUrl,$this->activation_token));
-				
+
 				$hooks = array(
 					"searchStrs" => array("#ACTIVATION-MESSAGE","#ACTIVATION-KEY","#USERNAME#"),
 					"subjectStrs" => array($activation_message,$this->activation_token,$this->unclean_username)
 				);
-				
-				if(!$mail->newTemplateMsg("new-registration.txt",$hooks))
-				{
+
+				if(!$mail->newTemplateMsg("new-registration.txt",$hooks)) {
 					$this->mail_failure = true;
-				}
-				else
-				{
-					if(!$mail->sendMail($this->clean_email,"New User"))
-					{
+				} else {
+					if(!$mail->sendMail($this->clean_email,"New User")) {
 						$this->mail_failure = true;
 					}
 				}
-			}
-			else
-			{
+			} else {
 				$this->user_active = 1;
-			}	
-	
-	
-			if(!$this->mail_failure)
-			{
+			}
+
+
+			if(!$this->mail_failure) {
 					$sql = "INSERT INTO `".$db_table_prefix."Users` (
 								`Password`,
 								`Email`,
 								`ActivationToken`,
 								`LastActivationRequest`,
-								`LostPasswordRequest`, 
+								`LostPasswordRequest`,
 								`Active`,
 								`Group_ID`,
 								`SignUpDate`,
@@ -94,7 +82,7 @@ class User {
 								'".time()."',
 								'0'
 							)";
-					 
+
 				return $db->sql_query($sql);
 			}
 		}

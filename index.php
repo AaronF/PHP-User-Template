@@ -6,7 +6,7 @@
 <head>
 	<meta charset="utf-8" />
 
-	<meta name="viewport" content="width=device-width, minimum-scale=1.0"> 
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0">
 	<link rel="shortcut icon" href="../siteimages/favicon.ico">
 	<meta name="description" content=""/>
 	<meta name="keywords" content="">
@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="css/external/font-awesome.css">
 
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    
+
     <title><?php echo $websiteName;?> - Index</title>
 </head>
 <body>
@@ -29,6 +29,5 @@
 		</div>
 	</div>
 </div>
-<!-- <script src=""></script> -->
 </body>
 </html>

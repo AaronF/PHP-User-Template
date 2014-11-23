@@ -15,13 +15,13 @@
 		if($password == ""){
 			$errors[] = lang("ACCOUNT_SPECIFY_PASSWORD");
 		}
-		
+
 		if(count($errors) == 0){
 			if(!emailExists($email)){
 				$errors[] = lang("ACCOUNT_USER_OR_PASS_INVALID");
 			} else {
 				$userdetails = fetchUserDetailswithEmail($email);
-			
+
 				if($userdetails["Active"]==0) {
 					$errors[] = lang("ACCOUNT_INACTIVE");
 				} else {
@@ -36,9 +36,9 @@
 						// $loggedInUser->clean_username = $userdetails["Username_Clean"];
 						$loggedInUser->remember_me = $remember_choice;
 						$loggedInUser->remember_me_sessid = rand_string( 15 );
-			
+
 						$loggedInUser->updateLastSignIn();
-		
+
 						if($loggedInUser->remember_me == 0) {
 							$_SESSION["Template"] = $loggedInUser;
 						} else if($loggedInUser->remember_me == 1) {
@@ -46,11 +46,11 @@
 							$db->sql_query("INSERT INTO ".$db_table_prefix."Sessions VALUES('".time()."', '".serialize($loggedInUser)."', '".$loggedInUser->remember_me_sessid."')");
 							setcookie("TemplateUser", $loggedInUser->remember_me_sessid, time()+parseLength($remember_me_length));
 						}
-						
+
 						header("Location: account.php");
 						die();
 					}
-				}           
+				}
 			}
 		}
 	}
@@ -61,7 +61,7 @@
 <head>
 	<meta charset="utf-8" />
 
-	<meta name="viewport" content="width=device-width, minimum-scale=1.0"> 
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0">
 	<link rel="shortcut icon" href="../siteimages/favicon.ico">
 	<meta name="description" content=""/>
 	<meta name="keywords" content="">
@@ -106,6 +106,5 @@
 	</div>
 </div>
 
-<script src="js/jquery.validate.min.js"></script>
 </body>
 </html>
