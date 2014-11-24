@@ -83,7 +83,7 @@ LOCK TABLES `Member_Users` WRITE;
 
 INSERT INTO `Member_Users` (`User_ID`, `Email`, `Password`, `ActivationToken`, `LastActivationRequest`, `LostPasswordRequest`, `Active`, `Group_ID`, `SignUpDate`, `LastSignIn`, `Private`, `Newsletter`, `Unique`)
 VALUES
-	(1,'aaronfisher@me.com','$2a$13$BjpnioYK833L56ZI.BxMve9E/58iFs64dj/Q.xBY1hpKAQugPwt72','b1daab23057213f81251e3689d379b02',1375475375,0,1,1,1375475375,1386372821,0,1,'0');
+	(1,'test@test.com','$2a$13$BjpnioYK833L56ZI.BxMve9E/58iFs64dj/Q.xBY1hpKAQugPwt72','b1daab23057213f81251e3689d379b02',1375475375,0,1,1,1375475375,1386372821,0,1,'0');
 
 /*!40000 ALTER TABLE `Member_Users` ENABLE KEYS */;
 UNLOCK TABLES;
