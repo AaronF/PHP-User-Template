@@ -121,25 +121,30 @@ if(isset($_POST["changepasssubmit"])) {
 	<meta name="description" content="">
 	<meta name="author" content="">
 
+	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-	<link rel="stylesheet" href="stylesheets/style.css">
+	<!-- CSS -->
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/css/style.css">
+	<link rel="stylesheet" href="assets/css/font-awesome.min.css">
 
 	<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 
-	<link rel="shortcut icon" href="images/favicon.ico">
-	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
-
+	<!-- Favicons -->
+	<link rel="shortcut icon" href="assets/images/favicon.ico">
+	<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="assets/images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="assets/images/apple-touch-icon-114x114.png">
 </head>
 <body>
-	<div class="grid w960">
+	<div class="container">
 		<div class="row">
-	        <div class="c12">
-				<h1>Change your email address</h1>
+	        <div class="col-md-6 col-md-offset-3">
+				<h1>Account</h1>
+				<h3>Change your email address</h3>
 				<?php
 				if(isset($_POST["changeemailsubmit"])){
 					if(count($emailerrors) > 0){
@@ -155,13 +160,16 @@ if(isset($_POST["changepasssubmit"])) {
 				}
 				?>
 				<form name="changeEmail" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" class="changeemail">
-					<label for="email">Email Address:</label>
-					<input type="email" name="email" value="<?php echo $loggedInUser->email; ?>" />
-					<div class="clear"></div>
-					<input type="submit" value="Update Email" name="changeemailsubmit" class="bluebutton1"/>
+					<div class="form-group">
+						<label for="email">Email Address:</label>
+						<input type="email" name="email" value="<?php echo $loggedInUser->email; ?>" class="form-control" placeholder="Email"/>
+					</div>
+
+					<input type="submit" value="Update Email" name="changeemailsubmit" class="btn btn-primary right">
+					<div class="clearfix"></div>
 				</form>
 
-				<h1>Change your password</h1>
+				<h3>Change your password</h3>
 				<?php
 				if(isset($_POST["changepasssubmit"])){
 					if(count($errors) > 0){ ?>
@@ -175,17 +183,20 @@ if(isset($_POST["changepasssubmit"])) {
 					<? }
 				}
 				?>
-
-
 				<form name="changePass" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" class="changepass">
-					<label for="password">Current Password:</label>
-					<input placeholder="Current password" type="password" name="password" >
-					<label for="passwordc">New Password:</label>
-					<input placeholder="New password" type="password" name="passwordc" >
-					<label for="passwordcheck">Confirm Password:</label>
-					<input placeholder="Confirm new password" type="password" name="passwordcheck" >
-					<div class="clear"></div>
-					<input type="submit" value="Update Password" name="changepasssubmit" class="bluebutton1">
+					<div class="form-group">
+						<label for="password">Current Password:</label>
+						<input placeholder="Current password" type="password" name="password" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="passwordc">New Password:</label>
+						<input placeholder="New password" type="password" name="passwordc" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="passwordcheck">Confirm Password:</label>
+						<input placeholder="Confirm new password" type="password" name="passwordcheck" class="form-control">
+					</div>
+					<input type="submit" value="Update Password" name="changepasssubmit" class="btn btn-primary right">
 				</form>
 			</div>
 		</div>

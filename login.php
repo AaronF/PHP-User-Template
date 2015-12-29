@@ -7,7 +7,11 @@
 		$errors = array();
 		$email = trim($_POST["email"]);
 		$password = trim($_POST["password"]);
-		$remember_choice = trim($_POST["remember_me"]);
+		if(isset($_POST["remember_me"])){
+			$remember_choice = trim($_POST["remember_me"]);
+		} else {
+			$remember_choice = 0;
+		}
 
 		if($email == ""){
 			$errors[] = lang("ACCOUNT_SPECIFY_USERNAME");
@@ -42,9 +46,10 @@
 						if($loggedInUser->remember_me == 0) {
 							$_SESSION["Template"] = $loggedInUser;
 						} else if($loggedInUser->remember_me == 1) {
-							// $_SESSION["farelert"] = $loggedInUser;
-							$db->sql_query("INSERT INTO ".$db_table_prefix."Sessions VALUES('".time()."', '".serialize($loggedInUser)."', '".$loggedInUser->remember_me_sessid."')");
-							setcookie("TemplateUser", $loggedInUser->remember_me_sessid, time()+parseLength($remember_me_length));
+							$DB = new Data;
+							$insertSQL = $DB->insertData("Member_Sessions", array("sessionStart" => time(), "sessionData" => serialize($loggedInUser), "sessionID" => $loggedInUser->remember_me_sessid));
+
+							setcookie("Template", $loggedInUser->remember_me_sessid, time()+parseLength($remember_me_length));
 						}
 
 						header("Location: account.php");
@@ -67,25 +72,29 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
+	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-	<link rel="stylesheet" href="stylesheets/style.css">
+	<!-- CSS -->
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/css/style.css">
+	<link rel="stylesheet" href="assets/css/font-awesome.min.css">
 
 	<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 
-	<link rel="shortcut icon" href="images/favicon.ico">
-	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
-
+	<!-- Favicons -->
+	<link rel="shortcut icon" href="assets/images/favicon.ico">
+	<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="assets/images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="assets/images/apple-touch-icon-114x114.png">
 </head>
 <body>
-	<div class="grid w960">
+	<div class="container">
 		<div class="row">
-			<div class="c4"></div>
-			<div class="c4 login">
+			<div class="col-md-3"></div>
+			<div class="col-md-6">
 				<form class="signupform" name="login_form" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
 					<h2>Login</h2>
 
@@ -93,20 +102,27 @@
 						<p></p>
 					</div>
 
-					<input placeholder="Email" type="text" name="email" />
-	                <input placeholder="Password" type="password" name="password" />
-	                <label for="remember_me" class="float--left">Remember Me?</label>
-	                <input type="checkbox" name="remember_me" value="1" id="checkbox" />
+					<div class="form-group">
+						<label for="emailinput">Email:</label>
+						<input type="email" class="form-control" id="emailinput" name="email" placeholder="Email">
+					</div>
+					<div class="form-group">
+						<label for="passwordinput">Password</label>
+    					<input type="password" class="form-control" id="passwordinput" name="password" placeholder="Password">
+					</div>
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" name="remember_me" value="1"> Remember Me
+						</label>
+					</div>
 
-	                <input type="submit" name="submit" value="Login">
+	                <input type="submit" name="submit" class="btn btn-primary right" value="Login">
 
 	                <p><a href="forgot-password.php">Forgot Password?</a></p>
-	                <div class="cf"></div>
 				</form>
 			</div>
-			<div class="c4 end"></div>
+			<div class="col-md-3"></div>
 		</div>
 	</div>
-
 </body>
 </html>

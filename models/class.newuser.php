@@ -27,7 +27,7 @@ class User {
 		}
 	}
 
-	public function userCakeAddUser() {
+	public function createNewUser() {
 		global $db,$emailActivation,$websiteUrl,$db_table_prefix;
 
 		if($this->status) {
@@ -60,30 +60,20 @@ class User {
 
 
 			if(!$this->mail_failure) {
-					$sql = "INSERT INTO `".$db_table_prefix."Users` (
-								`Password`,
-								`Email`,
-								`ActivationToken`,
-								`LastActivationRequest`,
-								`LostPasswordRequest`,
-								`Active`,
-								`Group_ID`,
-								`SignUpDate`,
-								`LastSignIn`
-							)
-					 		VALUES (
-								'".$secure_pass."',
-								'".$db->sql_escape($this->clean_email)."',
-								'".$this->activation_token."',
-								'".time()."',
-								'0',
-								'".$this->user_active."',
-								'1',
-								'".time()."',
-								'0'
-							)";
-
-				return $db->sql_query($sql);
+				$DB = new Data;
+				$insert = $DB->insertData("Member_Users",
+				array(
+					"Password" => $secure_pass,
+					"Email" => $this->clean_email,
+					"ActivationToken" => $this->activation_token,
+					"LastActivationRequest" => time(),
+					"LostPasswordRequest" => "0",
+					"Active" => $this->user_active,
+					"Group_ID" => "1",
+					"SignUpDate" => time(),
+					"LastSignIn" => "0"
+				));
+				return $insert;
 			}
 		}
 	}

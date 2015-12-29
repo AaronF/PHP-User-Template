@@ -1,0 +1,24 @@
+/**
+ * Website Starter Pack 1.1 (aaronfisher.co)
+ * Main stylesheet
+ * Add any imports to this file - compiled to css/style.css
+ */
+
+//Base Skeleton CSS files (/stylesheets/skeleton)
+@import "includes/variables";
+@import "includes/mixins";
+
+/**
+ * CSS Elements
+ */
+html, body {
+	background-color: #FFF;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}

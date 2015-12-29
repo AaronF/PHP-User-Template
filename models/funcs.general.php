@@ -1,5 +1,4 @@
 <?php
-
 require_once("config.php");
 
 //this should be moved to the default mail sender
@@ -125,12 +124,17 @@ function destorySession($name) {
 			unset($_SESSION[$name]);
 			$loggedInUser = NULL;
 		}
-	}
-	else if($loggedInUser->remember_me == 1) {
+	} else if($loggedInUser->remember_me == 1) {
 		if(isset($_COOKIE[$name])){
-			$db->sql_query("DELETE FROM ".$db_table_prefix."Sessions WHERE sessionID = '".$loggedInUser->remember_me_sessid."'");
+			$DB = new Data;
+			$deleteSQL = $DB->deleteData("Member_Sessions",
+			array(
+				"sessionID" => $loggedInUser->remember_me_sessid
+			));
+
 			setcookie($name, "", time() - parseLength($remember_me_length));
 			$loggedInUser = NULL;
+
 		}
 	}
 }
@@ -139,7 +143,15 @@ function updateSessionObj() {
 	global $loggedInUser,$db,$db_table_prefix;
 
 	$newObj = serialize($loggedInUser);
-	$db->sql_query("UPDATE ".$db_table_prefix."Sessions SET sessionData = '".$newObj."' WHERE sessionID = '".$loggedInUser->remember_me_sessid."'");
+
+	$DB = new Data;
+	$updateSQL = $DB->updateData("Member_Sessions",
+	array(
+		"sessionData" => $newObj
+	),
+	array(
+		"sessionID" => $loggedInUser->remember_me_sessid
+	));
 }
 
 

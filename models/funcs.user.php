@@ -1,18 +1,10 @@
 <?php
-
 include_once("config.php");
 
-
 function usernameExists($username) {
-	global $db,$db_table_prefix;
-
-	$sql = "SELECT Active
-			FROM ".$db_table_prefix."Users
-			WHERE
-			Username_Clean = '".$db->sql_escape(sanitize($username))."'
-			LIMIT 1";
-
-	if(returns_result($sql) > 0){
+	$DB = new Data;
+	$getSQL = $DB->getData("Member_Users", "Active", array("Username_Clean" => $username), "LIMIT 1");
+	if(is_array($getSQL) && count($getSQL) > 0){
 		return true;
 	} else {
 		return false;
@@ -20,14 +12,9 @@ function usernameExists($username) {
 }
 
 function emailExists($email) {
-	global $db,$db_table_prefix;
-
-	$sql = "SELECT Active FROM ".$db_table_prefix."Users
-			WHERE
-			Email = '".$db->sql_escape(sanitize($email))."'
-			LIMIT 1";
-
-	if(returns_result($sql) > 0){
+	$DB = new Data;
+	$getSQL = $DB->getData("Member_Users", "Active", array("Email" => $email), "LIMIT 1");
+	if(is_array($getSQL) && count($getSQL) > 0){
 		return true;
 	} else {
 		return false;
@@ -36,26 +23,25 @@ function emailExists($email) {
 
 //Function lostpass var if set will check for an active account.
 function validateActivationToken($token,$lostpass=NULL) {
-	global $db,$db_table_prefix;
-
+	// global $db,$db_table_prefix;
+	$DB = new Data;
+	$token = trim($token);
 	if($lostpass == NULL){
-		$sql = "SELECT ActivationToken
-				FROM ".$db_table_prefix."Users
-				WHERE Active = 0
-				AND
-				ActivationToken ='".$db->sql_escape(trim($token))."'
-				LIMIT 1";
+		$getSQL = $DB->getData("Member_Users", "ActivationToken",
+		array(
+			"Active" => "0",
+			"ActivationToken" => $token
+		), "LIMIT 1");
 	} else {
-		 $sql = "SELECT ActivationToken
-		 		FROM ".$db_table_prefix."Users
-				WHERE Active = 1
-				AND
-				ActivationToken ='".$db->sql_escape(trim($token))."'
-				AND
-				LostPasswordRequest = 1 LIMIT 1";
+		global $pdo_db;
+		$getSQL = $pdo_db->prepare("SELECT * FROM Member_Users WHERE Active = 1 AND ActivationToken = :acttoken AND LostPasswordRequest = 1");
+		$getSQL->bindParam(":acttoken", $token);
+		$getSQL->execute();
+		$getSQL->setFetchMode(PDO::FETCH_ASSOC);
+		$getSQL = $getSQL->fetchAll();
 	}
 
-	if(returns_result($sql) > 0){
+	if(is_array($getSQL) && count($getSQL) > 0){
 		return true;
 	} else {
 		return false;
@@ -64,101 +50,76 @@ function validateActivationToken($token,$lostpass=NULL) {
 
 
 function setUserActive($token) {
-	global $db,$db_table_prefix;
+	$token = trim($token);
+	$DB = new Data;
+	$updateSQL = $DB->updateData("Member_Users",
+	array(
+		"Active" => "1"
+	),
+	array(
+		"ActivationToken" => $token
+	));
 
-	$sql = "UPDATE ".$db_table_prefix."Users
-	 		SET Active = 1
-			WHERE
-			ActivationToken ='".$db->sql_escape(trim($token))."'
-			LIMIT 1";
-
-	return ($db->sql_query($sql));
+	return($updateSQL);
 }
 
 //You can use a activation token to also get user details here
 function fetchUserDetails($username=NULL,$token=NULL) {
-	global $db,$db_table_prefix;
-
-	if($username!=NULL) {
-		$sql = "SELECT * FROM ".$db_table_prefix."Users
-				WHERE
-				Username_Clean = '".$db->sql_escape(sanitize($username))."'
-				LIMIT
-				1";
+	$DB = new Data;
+	if($username != NULL) {
+		$getSQL = $DB->getData("Member_Users", "*", array("Username_Clean" => $username), "LIMIT 1");
 	} else {
-		$sql = "SELECT * FROM ".$db_table_prefix."Users
-				WHERE
-				ActivationToken = '".$db->sql_escape(sanitize($token))."'
-				LIMIT 1";
+		$getSQL = $DB->getData("Member_Users", "*", array("ActivationToken" => $token), "LIMIT 1");
 	}
 
-	$result = $db->sql_query($sql);
-	$row = $db->sql_fetchrow($result);
-
-	return ($row);
+	return ($getSQL[0]);
 }
 
 function fetchUserDetailswithEmail($email=NULL, $token=NULL) {
-	global $db,$db_table_prefix;
-
-	if($email!=NULL) {
-		$sql = "SELECT * FROM ".$db_table_prefix."Users
-				WHERE
-				Email = '".$db->sql_escape(sanitize($email))."'
-				LIMIT
-				1";
+	$DB = new Data;
+	if($email != NULL) {
+		$getSQL = $DB->getData("Member_Users", "*", array("Email" => $email), "LIMIT 1");
 	} else {
-		$sql = "SELECT * FROM ".$db_table_prefix."Users
-				WHERE
-				ActivationToken = '".$db->sql_escape(sanitize($token))."'
-				LIMIT 1";
+		$getSQL = $DB->getData("Member_Users", "*", array("ActivationToken" => $token), "LIMIT 1");
 	}
 
-	$result = $db->sql_query($sql);
-	$row = $db->sql_fetchrow($result);
-
-	return ($row);
+	return ($getSQL[0]);
 }
 
 function flagLostPasswordRequest($email,$value) {
-	global $db,$db_table_prefix;
+	$DB = new Data;
+	$updateSQL = $DB->updateData("Member_Users",
+	array(
+		"LostPasswordRequest" => $value
+	),
+	array(
+		"Email" => $email
+	));
 
-	$sql = "UPDATE ".$db_table_prefix."Users
-			SET LostPasswordRequest = '".$value."'
-			WHERE
-			Email ='".$db->sql_escape(sanitize($email))."'
-			LIMIT 1
-			";
-
-	return ($db->sql_query($sql));
+	return($updateSQL);
 }
 
 function updatePasswordFromToken($pass,$token) {
-	global $db,$db_table_prefix;
-
 	$new_activation_token = generateActivationToken();
 
-	$sql = "UPDATE ".$db_table_prefix."Users
-			SET Password = '".$db->sql_escape($pass)."',
-			ActivationToken = '".$new_activation_token."'
-			WHERE
-			ActivationToken = '".$db->sql_escape(sanitize($token))."'";
+	$DB = new Data;
+	$updateSQL = $DB->updateData("Member_Users",
+	array(
+		"Password" => $pass,
+		"ActivationToken" => $new_activation_token
+	),
+	array(
+		"ActivationToken" => $token
+	));
 
-	return ($db->sql_query($sql));
+	return($updateSQL);
 }
 
 function emailUsernameLinked($email,$username) {
-	global $db,$db_table_prefix;
+	$DB = new Data;
+	$getSQL = $DB->getData("Member_Users", "Username, Email", array("Username_Clean" => $username, "Email" => $email), "LIMIT 1");
 
-	$sql = "SELECT Username,
-			Email FROM ".$db_table_prefix."Users
-			WHERE Username_Clean = '".$db->sql_escape(sanitize($username))."'
-			AND
-			Email = '".$db->sql_escape(sanitize($email))."'
-			LIMIT 1
-			";
-
-	if(returns_result($sql) > 0){
+	if(is_array($getSQL) && count($getSQL) > 0){
 		return true;
 	} else {
 		return false;
@@ -169,27 +130,22 @@ function emailUsernameLinked($email,$username) {
 function isUserLoggedIn() {
 	global $loggedInUser,$db,$db_table_prefix;
 
-	$sql = "SELECT User_ID,
-			Password
-			FROM ".$db_table_prefix."Users
-			WHERE
-			User_ID = '".$db->sql_escape($loggedInUser->user_id)."'
-			AND
-			Password = '".$db->sql_escape($loggedInUser->hash_pw)."'
-			AND
-			Active = 1
-			LIMIT 1";
-
 	if($loggedInUser == NULL){
 		return false;
 	} else {
+		global $pdo_db;
+		$getdata = $pdo_db->prepare("SELECT * FROM Member_Users WHERE User_ID = :userid AND Password = :password AND Active = 1");
+		$getdata->bindParam(":userid", $loggedInUser->user_id);
+		$getdata->bindParam(":password", $loggedInUser->hash_pw);
+		$getdata->execute();
+		$getdata->setFetchMode(PDO::FETCH_ASSOC);
+		$getdata = $getdata->fetchAll();
 		//Query the database to ensure they haven't been removed or possibly banned?
-		if(returns_result($sql) > 0){
+		if(is_array($getdata) && count($getdata) > 0){
 			return true;
 		} else {
 			//No result returned kill the user session, user banned or deleted
 			$loggedInUser->userLogOut();
-
 			return false;
 		}
 	}
@@ -223,15 +179,28 @@ function generateActivationToken() {
 }
 
 function updateLastActivationRequest($new_activation_token,$username,$email) {
-	global $db,$db_table_prefix;
+	// global $db,$db_table_prefix;
 
-	$sql = "UPDATE ".$db_table_prefix."Users
-	 		SET ActivationToken = '".$new_activation_token."',
-			LastActivationRequest = '".time()."'
-			WHERE Email = '".$db->sql_escape(sanitize($email))."'
-			AND
-			Username_Clean = '".$db->sql_escape(sanitize($username))."'";
+	// $sql = "UPDATE ".$db_table_prefix."Users
+	//  		SET ActivationToken = '".$new_activation_token."',
+	// 		LastActivationRequest = '".time()."'
+	// 		WHERE Email = '".$db->sql_escape(sanitize($email))."'
+	// 		AND
+	// 		Username_Clean = '".$db->sql_escape(sanitize($username))."'";
+	//
+	// return ($db->sql_query($sql));
 
-	return ($db->sql_query($sql));
+	$DB = new Data;
+	$updateSQL = $DB->updateData("Member_Users",
+	array(
+		"ActivationToken" => $new_activation_token,
+		"LastActivationRequest" => time()
+	),
+	array(
+		"Email" => $email,
+		"Username_Clean" => $username
+	));
+
+	return($updateSQL);
 }
 ?>

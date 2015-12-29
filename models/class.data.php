@@ -36,7 +36,7 @@ function createSetParams($array){
 }
 
 class Data {
-	public function getData($table, $field, $params, $endparams=NULL){	
+	public function getData($table, $field, $params, $endparams=NULL){
 		global $pdo_db, $db_table_prefix;
 
 		if(!empty($params)) {
@@ -47,10 +47,10 @@ class Data {
 
 		$getdata = $pdo_db->prepare("SELECT ".$field." FROM ".$table." ".$whereParams."  ".$endparams." ");
 		foreach ($params as $key => $value) {
-			$getdata->bindParam(":".strtolower($key)."", $value);
+			$getdata->bindParam(strtolower($key), $value);
 		}
 		$getdata->execute();
-		$getdata->setFetchMode(PDO::FETCH_ASSOC); 
+		$getdata->setFetchMode(PDO::FETCH_ASSOC);
 
 		if($getdata->rowCount() > 0) {
 			$getdata = $getdata->fetchAll();
@@ -60,7 +60,7 @@ class Data {
 		}
 	}
 
-	public function insertData($table, $field, $params) {
+	public function insertData($table, $params) {
 		global $pdo_db, $db_table_prefix;
 
 		$fieldParams = createFieldParams($params);
@@ -79,7 +79,7 @@ class Data {
 		}
 	}
 
-	public function updateData($table, $field, $params, $whereparams) {
+	public function updateData($table, $params, $whereparams) {
 		global $pdo_db, $db_table_prefix;
 		$set = createSetParams($params);
 		$where = createWhereParams($whereparams);
@@ -100,7 +100,7 @@ class Data {
 		}
 	}
 
-	public function deleteData($table, $field, $params, $whereparams) {
+	public function deleteData($table, $whereparams) {
 		global $pdo_db, $db_table_prefix;
 		$where = createWhereParams($whereparams);
 

@@ -1,22 +1,22 @@
 <?php
 	require_once("settings.php");
-	require_once("db/".$dbtype.".php");
+	// require_once("db/".$dbtype.".php");
 
-	ini_set('display_errors', '0');
-	error_reporting(E_ALL | E_STRICT);
+	// ini_set('display_errors', '0');
+	// error_reporting(E_ALL | E_STRICT);
 
-	$db = new $sql_db();
-	if(is_array($db->sql_connect(
-		$db_host,
-		$db_user,
-		$db_pass,
-		$db_name,
-		$db_port,
-		false,
-		false
-	))) {
-		die("Unable to connect to the database");
-	}
+	// $db = new $sql_db();
+	// if(is_array($db->sql_connect(
+	// 	$db_host,
+	// 	$db_user,
+	// 	$db_pass,
+	// 	$db_name,
+	// 	$db_port,
+	// 	false,
+	// 	false
+	// ))) {
+	// 	die("Unable to connect to the database");
+	// }
 
 	try {
 	    $pdo_db = new PDO("mysql:host=localhost;dbname=$db_name", $db_user, $db_pass);
@@ -39,19 +39,27 @@
 
 	if(isset($_SESSION["Template"]) && is_object($_SESSION["Template"])) {
 		$loggedInUser = $_SESSION["Template"];
-	} else if(isset($_COOKIE["TemplateUser"])) {
-		$db->sql_query("SELECT sessionData FROM ".$db_table_prefix."Sessions WHERE sessionID = '".$_COOKIE['TemplateUser']."'");
-		$dbRes = $db->sql_fetchrowset();
-		if(empty($dbRes)) {
+	} else if(isset($_COOKIE["Template"])) {
+		$DB = new Data;
+		$getSQL = $DB->getData("Member_Sessions", "sessionData", array("sessionID" => $_COOKIE['Template']));
+
+		if(empty($getSQL)) {
 			$loggedInUser = NULL;
-			setcookie("TemplateUser", "", -parseLength($remember_me_length));
+			setcookie("Template", "", -parseLength($remember_me_length));
 		} else {
-			$obj = $dbRes[0];
+			$obj = $getSQL[0];
 			$loggedInUser = unserialize($obj["sessionData"]);
 		}
 	} else {
-		$db->sql_query("DELETE FROM ".$db_table_prefix."Sessions WHERE ".time()." >= (sessionStart+".parseLength($remember_me_length).")");
-		$loggedInUser = NULL;
+		//TODO
+		// $db->sql_query("DELETE FROM ".$db_table_prefix."Sessions WHERE ".time()." >= (sessionStart+".parseLength($remember_me_length).")");
+
+		// $deleteSQL = $pdo_db->prepare("DELETE FROM Member_Sessions WHERE :curr_time >= (sessionStart+:remember_me_length) ");
+		// $deleteSQL->bindValue(":curr_time", time());
+		// $deleteSQL->bindValue(":remember_me_length", parseLength($remember_me_length));
+		// $return = $deleteSQL->execute();
+		//
+		// $loggedInUser = NULL;
 	}
 
 ?>

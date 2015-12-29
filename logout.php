@@ -1,7 +1,9 @@
 <?php
 	include("models/config.php");
 
-	if(isUserLoggedIn()) $loggedInUser->userLogOut();
+	if(isUserLoggedIn()) {
+		$loggedInUser->userLogOut();
+	}
 
 	if(!empty($websiteUrl)) {
 		$add_http = "";

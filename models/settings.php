@@ -1,9 +1,9 @@
 <?php
-	$dbtype = "mysql";
+	// $dbtype = "mysql";
 	$db_host = "localhost";
-	$db_user = "TemplateSQL";
-	$db_pass = "testpassword";
-	$db_name = "TemplateSQL";
+	$db_user = "root";
+	$db_pass = "root";
+	$db_name = "php_user";
 	$db_port = "";
 	$db_table_prefix = "Member_";
 
@@ -12,6 +12,7 @@
 	$websiteName = "Template";
 	$websiteUrl = "http://" . $_SERVER['HTTP_HOST'] ."/";
 
+	//TODO
 	$emailActivation = false;
 
 	$resend_activation_threshold = 1;

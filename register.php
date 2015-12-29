@@ -30,7 +30,7 @@
 				}
 
 			} else {
-				if(!$user->userCakeAddUser()) {
+				if(!$user->createNewUser()) {
 					if($user->mail_failure) $errors[] = lang("MAIL_ERROR");
 					if($user->sql_failure)  $errors[] = lang("SQL_ERROR");
 				}
@@ -51,39 +51,56 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
+	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-	<link rel="stylesheet" href="stylesheets/style.css">
+	<!-- CSS -->
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/css/style.css">
+	<link rel="stylesheet" href="assets/css/font-awesome.min.css">
 
 	<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 
-	<link rel="shortcut icon" href="images/favicon.ico">
-	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
-
+	<!-- Favicons -->
+	<link rel="shortcut icon" href="assets/images/favicon.ico">
+	<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="assets/images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="assets/images/apple-touch-icon-114x114.png">
 </head>
 <body>
-	<div class="grid w960">
+	<div class="container">
 		<div class="row">
-			<div class="c4"></div>
-			<div class="c4 register">
+			<div class="col-md-3"></div>
+			<div class="col-md-6">
 				<form class="signupform" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
-					<h2>Sign Up</h2>
+					<h2>Register</h2>
 
-			        <div class="errormsg hide"></div>
-			        <div class="successmsg hide"></div>
+					<div class="errormsg hide">
+						<p></p>
+					</div>
+					<div class="successmsg hide">
+						<p></p>
+					</div>
 
-					<input type="email" name="email" placeholder="Email address" required="yes">
-					<input type="password" name="password" placeholder="Password" required="yes">
-					<input type="password" name="passwordc" id="passwordc" placeholder="Confirm password" required="yes">
-
-					<input type="submit" name="submit" value="Sign Up">
+					<div class="form-group">
+						<label for="emailinput">Email:</label>
+						<input type="email" class="form-control" id="emailinput" name="email" placeholder="Email">
+					</div>
+					<div class="form-group">
+						<label for="passwordinput">Password</label>
+    					<input type="password" class="form-control" id="passwordinput" name="password" placeholder="Password">
+					</div>
+					<div class="form-group">
+						<label for="passwordinput">Confirm Password</label>
+						<input type="password" class="form-control" name="passwordc" id="passwordc" placeholder="Confirm password" required="yes">
+					</div>
+					<input type="submit" name="submit" class="btn btn-primary right" value="Register">
+					<p><a href="login.php">Already have an account?</a></p>
 				</form>
 			</div>
-			<div class="c4 end"></div>
+			<div class="col-md-3"></div>
 		</div>
 	</div>
 </body>

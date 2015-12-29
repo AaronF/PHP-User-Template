@@ -1,8 +1,7 @@
 # TEAM
 
-    Aaron Fisher -- Web developer -- @TheTechBox
+    Aaron Fisher -- Web developer -- @AaronPFisher
 
 # THANKS
 
     <name>
-

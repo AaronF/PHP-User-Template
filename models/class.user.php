@@ -11,39 +11,27 @@ class loggedInUser {
 
 	//Last sign in of user
 	public function updateLastSignIn(){
-		global $db,$db_table_prefix;
+		$DB = new Data;
+		$updateSQL = $DB->updateData("Member_Users",
+		array(
+			"LastSignIn" => time()
+		),
+		array(
+			"User_ID" => $this->user_id
+		));
 
-		$sql = "UPDATE ".$db_table_prefix."Users
-			    SET
-				LastSignIn = '".time()."'
-				WHERE
-				User_ID = '".$db->sql_escape($this->user_id)."'";
-
-		return ($db->sql_query($sql));
+		return($updateSQL);
 	}
 
 	//Return the timestamp when the user registered
 	public function signupTimeStamp(){
-		global $db,$db_table_prefix;
-
-		$sql = "SELECT
-				SignUpDate
-				FROM
-				".$db_table_prefix."Users
-				WHERE
-				User_ID = '".$db->sql_escape($this->user_id)."'";
-
-		$result = $db->sql_query($sql);
-
-		$row = $db->sql_fetchrow($result);
-
-		return ($row['SignUpDate']);
+		$DB = new Data;
+		$getSQL = $DB->getData("Member_Users", "SignUpDate", array("User_ID" => $this->user_id));
+		return($getSQL[0]["SignUpDate"]);
 	}
 
 	//Update a users password
 	public function updatePassword($pass){
-		global $db,$db_table_prefix;
-
 		$secure_pass = generateHash($pass);
 
 		$this->hash_pw = $secure_pass;
@@ -51,13 +39,16 @@ class loggedInUser {
 			updateSessionObj();
 		}
 
-		$sql = "UPDATE ".$db_table_prefix."Users
-		       SET
-			   Password = '".$db->sql_escape($secure_pass)."'
-			   WHERE
-			   User_ID = '".$db->sql_escape($this->user_id)."'";
+		$DB = new Data;
+		$updateSQL = $DB->updateData("Member_Users",
+		array(
+			"Password" => $secure_pass
+		),
+		array(
+			"User_ID" => $this->user_id
+		));
 
-		return ($db->sql_query($sql));
+		return($updateSQL);
 	}
 
 	//Update a users email
@@ -69,89 +60,44 @@ class loggedInUser {
 			updateSessionObj();
 		}
 
-		$sql = "UPDATE ".$db_table_prefix."Users
-				SET Email = '".$email."'
-				WHERE
-				User_ID = '".$db->sql_escape($this->user_id)."'";
+		$DB = new Data;
+		$updateSQL = $DB->updateData("Member_Users",
+		array(
+			"Email" => $email
+		),
+		array(
+			"User_ID" => $this->user_id
+		));
 
-		return ($db->sql_query($sql));
-	}
-
-	public function updateFirstName($firstname){
-		global $pdo_db,$db_table_prefix;
-		$updateFirstName = $pdo_db->prepare("UPDATE ".$db_table_prefix."Users SET First_Name = :firstname WHERE User_ID = :userid");
-		$updateFirstName->bindParam(':firstname', $firstname);
-		$updateFirstName->bindParam(':userid', $this->user_id);
-		$updateFirstName->execute();
-
-		$this->first_name = $firstname;
-		if($this->remember_me == 1) {
-			updateSessionObj();
-		}
-	}
-
-	public function updateLastName($lastname){
-		global $pdo_db,$db_table_prefix;
-		$updateLastName = $pdo_db->prepare("UPDATE ".$db_table_prefix."Users SET Last_Name = :lastname WHERE User_ID = :userid");
-		$updateLastName->bindParam(':lastname', $lastname);
-		$updateLastName->bindParam(':userid', $this->user_id);
-		$updateLastName->execute();
-
-		$this->last_name = $lastname;
-		if($this->remember_me == 1) {
-			updateSessionObj();
-		}
-	}
-
-	public function updatePhone($phone){
-		global $pdo_db,$db_table_prefix;
-		$updatePhone = $pdo_db->prepare("UPDATE ".$db_table_prefix."Users SET Phone = :phone WHERE User_ID = :userid");
-		$updatePhone->bindParam(':phone', $phone);
-		$updatePhone->bindParam(':userid', $this->user_id);
-		$updatePhone->execute();
-
-		$this->phone = $phone;
-		if($this->remember_me == 1) {
-			updateSessionObj();
-		}
+		return($updateSQL);
 	}
 
 	//Fetch all user group information
-	public function groupID()
-	{
-		global $db,$db_table_prefix;
+	public function groupID(){
+		global $pdo_db;
+		$getSQL = $pdo_db->prepare("SELECT Member_Users.Group_ID, Member_Groups.* FROM Member_Users INNER JOIN Member_Groups ON Member_Users.Group_ID = Member_Groups.Group_ID WHERE User_ID = :userid");
+		$getSQL->bindParam(":userid", $this->user_id);
+		$getSQL->execute();
+		$getSQL->setFetchMode(PDO::FETCH_ASSOC);
+		$getSQL = $getSQL->fetchAll();
 
-		$sql = "SELECT ".$db_table_prefix."Users.Group_ID,
-			   ".$db_table_prefix."Groups.*
-			   FROM ".$db_table_prefix."Users
-			   INNER JOIN ".$db_table_prefix."Groups ON ".$db_table_prefix."Users.Group_ID = ".$db_table_prefix."Groups.Group_ID
-			   WHERE
-			   User_ID  = '".$db->sql_escape($this->user_id)."'";
-
-		$result = $db->sql_query($sql);
-
-		$row = $db->sql_fetchrow($result);
-
-		return($row);
+		return($getSQL[0]);
 	}
 
 	//Is a user member of a group
 	public function isGroupMember($id){
-		global $db,$db_table_prefix;
+		global $pdo_db;
+		$getSQL = $pdo_db->prepare("SELECT Member_Users.Group_ID, Member_Groups.* FROM Member_Users INNER JOIN Member_Groups ON Member_Users.Group_ID = Member_Groups.Group_ID WHERE User_ID = :userid AND Member_Users.Group_ID = :groupid LIMIT 1");
+		$getSQL->bindParam(":userid", $this->user_id);
+		$getSQL->bindParam(":groupid", $id);
+		$getSQL->execute();
+		$getSQL->setFetchMode(PDO::FETCH_ASSOC);
+		$getSQL = $getSQL->fetchAll();
 
-		$sql = "SELECT ".$db_table_prefix."Users.Group_ID,
-				".$db_table_prefix."Groups.* FROM ".$db_table_prefix."Users
-				INNER JOIN ".$db_table_prefix."Groups ON ".$db_table_prefix."Users.Group_ID = ".$db_table_prefix."Groups.Group_ID
-				WHERE User_ID  = '".$db->sql_escape($this->user_id)."'
-				AND
-				".$db_table_prefix."Users.Group_ID = '".$db->sql_escape($db->sql_escape($id))."'
-				LIMIT 1
-				";
-
-		if(returns_result($sql)){
-			return true;
+		if(is_array($getSQL) && count($getSQL) > 0){
+		    return true;
 		} else {
-			return false;
+		    return false;
 		}
 	}
 

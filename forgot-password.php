@@ -20,7 +20,7 @@ if(!empty($_GET["confirm"])) {
 
 		$hooks = array(
 				"searchStrs" => array("#GENERATED-PASS#","#USERNAME#"),
-				"subjectStrs" => array($rand_pass,$userdetails["Username"])
+				"subjectStrs" => array($rand_pass,$userdetails["Email"])
 		);
 
 		if(!$mail->newTemplateMsg("your-lost-password.txt",$hooks)) {
@@ -57,7 +57,7 @@ if(!empty($_GET["deny"])) {
 
 if(!empty($_POST)) {
 	$email = $_POST["email"];
-	$username = $_POST["username"];
+	// $username = $_POST["username"];
 
 
 	if(trim($email) == "") {
@@ -79,7 +79,7 @@ if(!empty($_POST)) {
 
 			$hooks = array(
 				"searchStrs" => array("#CONFIRM-URL#","#DENY-URL#","#USERNAME#"),
-				"subjectStrs" => array($confirm_url,$deny_url,$userdetails["Username"])
+				"subjectStrs" => array($confirm_url,$deny_url,$userdetails["Email"])
 			);
 
 			if(!$mail->newTemplateMsg("lost-password-request.txt",$hooks)) {
@@ -104,30 +104,34 @@ if(!empty($_POST)) {
 <!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
 <head>
 	<meta charset="utf-8">
-	<title>Index</title>
+	<title>Forgot Password</title>
 	<meta name="description" content="">
 	<meta name="author" content="">
 
+	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-	<link rel="stylesheet" href="stylesheets/style.css">
+	<!-- CSS -->
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/css/style.css">
+	<link rel="stylesheet" href="assets/css/font-awesome.min.css">
 
 	<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 
-	<link rel="shortcut icon" href="images/favicon.ico">
-	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
-
+	<!-- Favicons -->
+	<link rel="shortcut icon" href="assets/images/favicon.ico">
+	<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="assets/images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="assets/images/apple-touch-icon-114x114.png">
 </head>
 <body>
-	<div class="grid w960">
+	<div class="container">
 		<div class="row">
-			<div class="c4"></div>
-			<div class="c4 login">
+			<div class="col-md-6 col-md-offset-3">
 				<form class="signupform" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+					<h2>Forgot Password</h2>
 					<?php
 			        if(!empty($_POST) || !empty($_GET)) {
 			            if(count($errors) > 0) {
@@ -145,8 +149,11 @@ if(!empty($_POST)) {
 						}
 			        }
 			        ?>
-					<input type="email" name="email" placeholder="Email address">
-					<button id="loginbutton" class="bluebutton1 submit" type="submit" value="Reset"><i class="icon-ok"></i> Reset</button>
+					<div class="form-group">
+						<label for="email">Email:</label>
+						<input type="email" name="email" placeholder="Email address" class="form-control">
+					</div>
+					<button id="loginbutton" class="btn btn-primary right submit" type="submit" value="Reset"><i class="icon-ok"></i> Reset</button>
 				</form>
 			</div>
 		</div>
