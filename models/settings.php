@@ -3,7 +3,7 @@
 	$db_host = "localhost";
 	$db_user = "root";
 	$db_pass = "root";
-	$db_name = "php_user";
+	$db_name = "user_template";
 	$db_port = "";
 	$db_table_prefix = "Member_";
 

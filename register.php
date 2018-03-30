@@ -54,54 +54,37 @@
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-	<!-- CSS -->
-	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
-	<link rel="stylesheet" href="assets/css/style.css">
-	<link rel="stylesheet" href="assets/css/font-awesome.min.css">
-
 	<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
-
-	<!-- Favicons -->
-	<link rel="shortcut icon" href="assets/images/favicon.ico">
-	<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="assets/images/apple-touch-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="assets/images/apple-touch-icon-114x114.png">
 </head>
 <body>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-3"></div>
-			<div class="col-md-6">
-				<form class="signupform" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
-					<h2>Register</h2>
-
-					<div class="errormsg hide">
-						<p></p>
-					</div>
-					<div class="successmsg hide">
-						<p></p>
-					</div>
-
-					<div class="form-group">
-						<label for="emailinput">Email:</label>
-						<input type="email" class="form-control" id="emailinput" name="email" placeholder="Email">
-					</div>
-					<div class="form-group">
-						<label for="passwordinput">Password</label>
-    					<input type="password" class="form-control" id="passwordinput" name="password" placeholder="Password">
-					</div>
-					<div class="form-group">
-						<label for="passwordinput">Confirm Password</label>
-						<input type="password" class="form-control" name="passwordc" id="passwordc" placeholder="Confirm password" required="yes">
-					</div>
-					<input type="submit" name="submit" class="btn btn-primary right" value="Register">
-					<p><a href="login.php">Already have an account?</a></p>
-				</form>
-			</div>
-			<div class="col-md-3"></div>
+	<h2>Register</h2>
+	<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+		<div class="errormsg">
+			<?php if(count($errors) > 0){ ?>
+					<?php errorBlock($errors); ?>
+			<?php } ?>
 		</div>
-	</div>
+
+		<div>
+			<label for="emailinput">Email:</label>
+			<input type="email" id="emailinput" name="email" placeholder="Email">
+		</div>
+
+		<div>
+			<label for="passwordinput">Password</label>
+			<input type="password" id="passwordinput" name="password" placeholder="Password">
+		</div>
+
+		<div>
+			<label for="passwordinput">Confirm Password</label>
+			<input type="password" name="passwordc" id="passwordc" placeholder="Confirm password" required="yes">
+		</div>
+
+		<input type="submit" name="submit" value="Register">
+
+		<p><a href="login.php">Already have an account?</a></p>
+	</form>
 </body>
 </html>

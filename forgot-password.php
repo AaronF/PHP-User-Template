@@ -111,52 +111,38 @@ if(!empty($_POST)) {
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-	<!-- CSS -->
-	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
-	<link rel="stylesheet" href="assets/css/style.css">
-	<link rel="stylesheet" href="assets/css/font-awesome.min.css">
-
 	<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
-
-	<!-- Favicons -->
-	<link rel="shortcut icon" href="assets/images/favicon.ico">
-	<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="assets/images/apple-touch-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="assets/images/apple-touch-icon-114x114.png">
 </head>
 <body>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
-				<form class="signupform" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
-					<h2>Forgot Password</h2>
-					<?php
-			        if(!empty($_POST) || !empty($_GET)) {
-			            if(count($errors) > 0) {
-						?>
-				        	<div class="errormsg">
-				            	<?php errorBlock($errors); ?>
-				            </div>
-			        	<?
-			            } else {
-						?>
-				            <div class="successmsg">
-				                <p><?php echo $success_message; ?></p>
-							</div>
-			        	<?
-						}
-			        }
-			        ?>
-					<div class="form-group">
-						<label for="email">Email:</label>
-						<input type="email" name="email" placeholder="Email address" class="form-control">
-					</div>
-					<button id="loginbutton" class="btn btn-primary right submit" type="submit" value="Reset"><i class="icon-ok"></i> Reset</button>
-				</form>
-			</div>
+	<h2>Forgot Password</h2>
+	<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+
+		<?php
+        if(!empty($_POST) || !empty($_GET)) {
+            if(count($errors) > 0) {
+			?>
+	        	<div class="errormsg">
+	            	<?php errorBlock($errors); ?>
+	            </div>
+        	<?
+            } else {
+			?>
+	            <div class="successmsg">
+	                <p><?php echo $success_message; ?></p>
+				</div>
+        	<?
+			}
+        }
+        ?>
+
+		<div>
+			<label for="email">Email:</label>
+			<input type="email" name="email" placeholder="Email address">
 		</div>
-	</div>
+
+		<button type="submit" value="Reset">Reset</button>
+	</form>
 </body>
 </html>

@@ -32,7 +32,7 @@ class loggedInUser {
 
 	//Update a users password
 	public function updatePassword($pass){
-		$secure_pass = generateHash($pass);
+		$secure_pass = password_hash($pass, PASSWORD_DEFAULT);
 
 		$this->hash_pw = $secure_pass;
 		if($this->remember_me == 1){

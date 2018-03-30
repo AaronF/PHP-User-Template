@@ -124,82 +124,66 @@ if(isset($_POST["changepasssubmit"])) {
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-	<!-- CSS -->
-	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
-	<link rel="stylesheet" href="assets/css/style.css">
-	<link rel="stylesheet" href="assets/css/font-awesome.min.css">
-
 	<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
-
-	<!-- Favicons -->
-	<link rel="shortcut icon" href="assets/images/favicon.ico">
-	<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="assets/images/apple-touch-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="assets/images/apple-touch-icon-114x114.png">
 </head>
 <body>
-	<div class="container">
-		<div class="row">
-	        <div class="col-md-6 col-md-offset-3">
-				<h1>Account</h1>
-				<h3>Change your email address</h3>
-				<?php
-				if(isset($_POST["changeemailsubmit"])){
-					if(count($emailerrors) > 0){
-						?>
-						<div id="errors">
-							<?php errorBlock($emailerrors); ?>
-						</div>
-						<?php } else { ?>
-						<div id="success">
-							<p><?php echo lang("ACCOUNT_DETAILS_UPDATED"); ?></p>
-						</div>
-					<? }
-				}
-				?>
-				<form name="changeEmail" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" class="changeemail">
-					<div class="form-group">
-						<label for="email">Email Address:</label>
-						<input type="email" name="email" value="<?php echo $loggedInUser->email; ?>" class="form-control" placeholder="Email"/>
-					</div>
-
-					<input type="submit" value="Update Email" name="changeemailsubmit" class="btn btn-primary right">
-					<div class="clearfix"></div>
-				</form>
-
-				<h3>Change your password</h3>
-				<?php
-				if(isset($_POST["changepasssubmit"])){
-					if(count($errors) > 0){ ?>
-						<div id="errors">
-							<?php errorBlock($errors); ?>
-						</div>
-					<?php } else { ?>
-						<div id="success">
-							<p><?php echo lang("ACCOUNT_DETAILS_UPDATED"); ?></p>
-						</div>
-					<? }
-				}
-				?>
-				<form name="changePass" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" class="changepass">
-					<div class="form-group">
-						<label for="password">Current Password:</label>
-						<input placeholder="Current password" type="password" name="password" class="form-control">
-					</div>
-					<div class="form-group">
-						<label for="passwordc">New Password:</label>
-						<input placeholder="New password" type="password" name="passwordc" class="form-control">
-					</div>
-					<div class="form-group">
-						<label for="passwordcheck">Confirm Password:</label>
-						<input placeholder="Confirm new password" type="password" name="passwordcheck" class="form-control">
-					</div>
-					<input type="submit" value="Update Password" name="changepasssubmit" class="btn btn-primary right">
-				</form>
+	<a href="logout.php">Log out</a>
+	<h1>Account</h1>
+	<h3>Change your email address</h3>
+	<?php
+	if(isset($_POST["changeemailsubmit"])){
+		if(count($emailerrors) > 0){
+			?>
+			<div id="errors">
+				<?php errorBlock($emailerrors); ?>
 			</div>
+			<?php } else { ?>
+			<div id="success">
+				<p><?php echo lang("ACCOUNT_DETAILS_UPDATED"); ?></p>
+			</div>
+		<? }
+	}
+	?>
+	<form name="changeEmail" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+		<div>
+			<label for="email">Email Address:</label>
+			<input type="email" name="email" value="<?php echo $loggedInUser->email; ?>" placeholder="Email"/>
 		</div>
-	</div>
+
+		<input type="submit" value="Update Email" name="changeemailsubmit">
+		<div class="clearfix"></div>
+	</form>
+
+	<h3>Change your password</h3>
+	<?php
+	if(isset($_POST["changepasssubmit"])){
+		if(count($errors) > 0){ ?>
+			<div id="errors">
+				<?php errorBlock($errors); ?>
+			</div>
+		<?php } else { ?>
+			<div id="success">
+				<p><?php echo lang("ACCOUNT_DETAILS_UPDATED"); ?></p>
+			</div>
+		<? }
+	}
+	?>
+	<form name="changePass" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+		<div>
+			<label for="password">Current Password:</label>
+			<input placeholder="Current password" type="password" name="password">
+		</div>
+		<div>
+			<label for="passwordc">New Password:</label>
+			<input placeholder="New password" type="password" name="passwordc">
+		</div>
+		<div>
+			<label for="passwordcheck">Confirm Password:</label>
+			<input placeholder="Confirm new password" type="password" name="passwordcheck">
+		</div>
+		<input type="submit" value="Update Password" name="changepasssubmit">
+	</form>
 </body>
 </html>

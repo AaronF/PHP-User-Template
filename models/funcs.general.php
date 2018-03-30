@@ -1,13 +1,6 @@
 <?php
 require_once("config.php");
 
-//this should be moved to the default mail sender
-function mailUser($to, $subject, $contents){
-	$from = "farelert (alerts@farelert.com)";
-	$headers = "From:" . $from;
-	mail($to,$subject,$contents,$headers);
-}
-
 function text_limit($str,$limit=10) {
 	if(stripos($str," ")){
     	$ex_str = explode(" ",$str);

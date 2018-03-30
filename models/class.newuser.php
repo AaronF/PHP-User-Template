@@ -31,7 +31,7 @@ class User {
 		global $db,$emailActivation,$websiteUrl,$db_table_prefix;
 
 		if($this->status) {
-			$secure_pass = generateHash($this->clean_password);
+			$secure_pass = password_hash($this->clean_password, PASSWORD_DEFAULT);
 
 			$this->activation_token = generateActivationToken();
 
