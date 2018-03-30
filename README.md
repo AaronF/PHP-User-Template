@@ -5,6 +5,8 @@ Includes a basic user sign up and login template.
 
 **Demo login:** test@test.com / test1234
 
+**Database template:** template.sql (change the connection settings in models/settings.php)
+
 TODO
 ----
 
