@@ -1,6 +1,6 @@
 <?php
 require_once("models/config.php");
-if(isUserLoggedIn()) { header("Location: dashboard.php"); die(); }
+if(isUserLoggedIn()) { header("Location: account.php"); die(); }
 
 $errors = array();
 $success_message = "";

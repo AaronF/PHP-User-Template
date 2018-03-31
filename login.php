@@ -1,6 +1,6 @@
 <?php
 	require_once("models/config.php");
-	if(isUserLoggedIn()) { header("Location: index.php"); die(); }
+	if(isUserLoggedIn()) { header("Location: account.php"); die(); }
 
 	//login
 	if(!empty($_POST)){
